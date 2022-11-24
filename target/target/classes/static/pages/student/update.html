@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update an Appointment Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../../images/icons/efka.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+    <!--===============================================================================================-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script src="../../scripts/config/main.js"></script>
+    <script src="../../scripts/security/home-auth.js"></script>
+    <script src="../../scripts/security/STUDENT-auth.js"></script>
+    <script src="../../scripts/STUDENT/home.js"></script>
+
+    <script>
+     $(document).ready(function(){
+     var url = new URL(document.URL);
+     var c = url.searchParams.get("appointmentid");
+        loadAppointment(c);
+        });
+
+    </script>
+</head>
+
+<body>
+<div class="modifier">
+    <div class="login">
+        <div class="wrap-login">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light text-align:right">
+                    <!--  <a class="navbar-brand" href="index.html">Home</a> -->
+                    <a class="navbar-brand">
+                        <img src="../../images/efka-logotypo.png" alt="EFKA" width="30" height="30">
+                    </a>
+                    <!-- Toggler/collapsibe Button -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#collapsibleNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul class="navbar-nav" style="margin-left: 29em;">
+                            <li class="nav-item">
+                                <span class="nav-link"><a href="index.html">Home</a></span>
+                            </li>
+                            <li class="nav-item">
+                                <span id="myClickableThingy" class="nav-link" onclick="logout()">Logout</span>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="welcome-user">
+                <span id="welcome" style="float:right"></span>
+            </div>
+            <br>
+            <form class="validate-form">
+                <br>
+                <span class="login-form-title">
+                    Edit your appointment
+                </span>
+                <div class="form-group required form-inline">
+                    <div class="wrap-input50 validate-input">
+                        <label for="departmentU">department</label>
+                        <input id="departmentU" class="input-size form-control" type="text" name="departmentU" style="width:100%" readonly disabled>
+                    </div>
+                    <div class="wrap-input50 validate-input">
+                        <label for="facultyU">faculty</label>
+                        <input id="facultyU" class="input-size form-control" type="text" name="facultyU" style="width:100%" readonly disabled>
+                    </div>
+                    <div class="wrap-input50 validate-input" data-validate="required">
+                        <label class="control-label" for="dateU">Date</label>
+                        <input class="input-size form-control" type="text" name="dateU" id="dateU"
+                               placeholder="mm-dd-yyyy" value="" style="width:100%" required>
+                        <span class="symbol">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input50 validate-input"
+                         data-validate="appointments are allowed only between 09:00-18:00">
+                        <label class="control-label" for="timeU" style="align:left">Time</label>
+                        <input class="input-size form-control" type="time" name="timeU" id="timeU"
+                               value="" min="09:00" max="18:00" style="width:100%" required>
+                        <span class="symbol">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input50 validate-input" data-validate="at least 2 characters">
+                        <label class="control-label" for="briefdescriptionU">Brief
+                            Description</label>
+                        <textarea maxlength="200" minlength="2" id="briefdescriptionU"
+                                  class="input-size form-control" name="briefdescriptionU" style="width:100%" required></textarea>
+
+                    </div>
+                    <div class="wrap-input50 validate-input" data-validate="Max length 2000 characters.">
+                        <label for="notesU">Notes</label>
+                        <textarea maxlength="2000" minlength="2" id="notesU" name="notesU"
+                                  class="input-size form-control" rows="3" style="width:100%" ></textarea>
+                    </div>
+                    <div class="container-register-form-btn">
+                        <button type="button" class="btn btn-secondary" id="cancelButton" style="margin:10px; width:100px">Cancel</button>
+                        <button type="button" class="btn btn-success" id="saveButton" style="margin:10px; width:100px">Save</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="modal" id="updateModal" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal body for pop-up form -->
+                        <div class="modal-body">
+                            <div class="wrap-input100">
+                                <p> "The appointment has been updated!" </p>
+                                <br>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            onclick="goIndex()">Ok
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function goIndex(){
+        window.location.href="index.html";
+    }
+</script>
+<script>
+
+$(function() {
+    let dateToday = new Date();
+    dateToday.setDate(dateToday.getDate() + 1);
+    const oneYear=new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  $('input[name="dateU"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: false,
+    format: 'dd/mm/yyyy',
+    minDate: dateToday,
+    maxDate: oneYear,
+    locale: {
+                format: 'MM-DD-YYYY'
+            }
+  });
+  $('#timeU').daterangepicker({
+            singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 15,
+            timePickerSeconds: false,
+            locale: {
+                format: 'HH:mm'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+});
+
+</script>
+<script src="../../scripts/validations/validations.js"></script>
+</body>
+</html>

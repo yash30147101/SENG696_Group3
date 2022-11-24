@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign-up Form Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../../images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <!--===============================================================================================-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../../scripts/notify.js"></script>
+    <script src="../../scripts/config/main.js"></script>
+    <script src="../../scripts/security/guest-auth.js"></script>
+    <script src="../../scripts/guest/registration.js"></script>
+    <script src="../../scripts/validations/validations.js"></script>
+</head>
+<body>
+<div class="modifier">
+    <div class="login">
+        <div class="wrap-login">
+            <form class="form-inline validate-form">
+                                <span class="register-form-title">
+                                    Sign-up Form
+                                </span>
+                <div class="wrap-input50 validate-input form-group" data-validate="characters only, at least 3">
+                    <label class="control-label" for="firstname">First Name</label>
+                    <input id="firstname" class="input100" type="text" name="firstname"
+                           placeholder="Type your First Name" minlength="3" maxlength="20" pattern="[A-Za-z]{3,20}"
+                           required>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input50 validate-input form-group" data-validate="characters only, at least 3">
+                    <label class="control-label" for="lastname">Last Name</label>
+                    <input id="lastname" class="input100" type="text" name="lastname" value=""
+                           placeholder="Type your Last Name" minlength="3" maxlength="20" pattern="[A-Za-z]{3,20}"
+                           required>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input50 form-group">
+                </div>
+
+                <div class="wrap-input50 validate-input form-group" data-validate="[0-9], 10 digits required">
+                    <label class="control-label" for="phone">Phone</label>
+                    <input id="phone" class="input100 form-group" type="tel" name="phone" value=""
+                           placeholder="Type your Phone" minlength="10" maxlength="10" pattern="[0-9]{10}" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input50 validate-input form-group" data-validate="enter a valid email address">
+                    <label class="control-label" for="email">Email</label>
+                    <input id="email" class="input100" type="email" name="email" value="" placeholder="Type your Email"
+                           pattern="(?!test@test\.com$)[A-Za-z0-9._%+-]{3,}@[a-z]{3,}\.[a-z]{2,}(?:\.[a-z]{2,})?"
+                           required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input50 validate-input form-group" data-validate="at least 6,begin with character">
+                    <label class="control-label" for="username">Username</label>
+                    <input id="username" class="input100" type="text" name="username" value=""
+                           placeholder="Type your Username" minlength="6" maxlength="20"
+                           pattern="[a-zA-Z][a-zA-Z0-9-_]{5,20}" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input50 form-group"></div>
+
+                <div class="wrap-input50 validate-input form-group" data-validate="at least 6,at least 1 upper case ">
+                    <label class="control-label" for="pswd">Password</label>
+                    <input id="pswd" class="input100" type="password" name="pswd" value=""
+                           placeholder="Type your Password" minlength="6" maxlength="20"
+                           pattern="^(?=.*[A-Z]).{6,20}$" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input50 validate-input form-group" data-validate="the passwords don't match">
+                    <label class="control-label" for="rpwd">Retype your Password</label>
+                    <input id="rpwd" class="input100" type="password" name="rpwd" value=""
+                           placeholder="Retype your Password" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-register-form-btn">
+                    <button id="registerButton" type="button" class="custom-btn"
+                            onclick="register(firstname,lastname,id,phone,email,username,pswd);" disabled>
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+</body>
+
+</html>

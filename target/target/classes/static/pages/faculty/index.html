@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>faculty Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="../../images/icons/efka.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+    <!--===============================================================================================-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script src="../../scripts/config/main.js"></script>
+    <script src="../../scripts/security/home-auth.js"></script>
+    <script src="../../scripts/security/faculty-auth.js"></script>
+    <script src="../../scripts/faculty/home.js"></script>
+</head>
+
+<body>
+<div class="modifier">
+    <div class="login">
+        <div class="wrap-login">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light text-align:right">
+                    <!--  <a class="navbar-brand" href="index.html">Home</a> -->
+                    <a class="navbar-brand">
+                        <img src="../../images/efka-logotypo.png" alt="EFKA" width="30" height="30">
+                    </a>
+                    <!-- Toggler/collapsibe Button -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#collapsibleNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul class="navbar-nav" style="margin-left: 19em;">
+                            <li class="nav-item">
+                                <span class="nav-link"><a href="index.html">Home</a></span>
+                            </li>
+                            <li class="nav-item">
+                                <span id="myClickableThingy" class="nav-link" data-toggle="modal"
+                                      data-target="#SearchModal">Search Appointment</span>
+                            </li>
+                            <li class="nav-item">
+                                <span id="myClickableThingy" class="nav-link" onclick="logout()">Logout</span>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="welcome-user">
+                <span id="welcome" style="float:right"></span>
+            </div>
+            <div>
+            Name : <span id="name" ></span><br>
+            Email : <span id="email"></span>
+            </div>
+            <div class="container">
+                <br>
+                <br>
+                <table id="appointments" class="table table-hover" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Student name</th>
+                        <th>Date</th>
+                        <th>Notes</th>
+                        <th>status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!-- View an appointment Modal -->
+            <div class="modal fade" id="viewAppointmentModal" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Appointment details</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form name="appointment" data-custom-validation="true">
+                                <div>
+                                    <div class="validate-input">
+                                        <label for="date">Date</label>
+                                        <input id="date" class="form-control" type="text" name="date" readonly disabled>
+                                        <span class="symbol">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <div class="validate-input">
+                                        <label for="time">Time</label>
+                                        <input id="time" class="form-control" type="text" name="time" readonly disabled>
+                                        <span class="symbol">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <div class="validate-input">
+                                        <label for="briefdescription">Brief Description</label>
+                                        <textarea id="briefdescription" class="form-control" name="briefdescription" readonly disabled></textarea>
+                                    </div>
+                                    <div class="validate-input">
+                                        <label for="notes">Notes</label>
+                                        <textarea id="notes" name="notes" class="form-control" rows="3" readonly disabled></textarea>
+                                    </div>
+                                    <br>
+                                    <i class="fa fa-user" id="ClickableImage" aria-hidden="true" onclick="showorHideDiv()"></i>
+                                    <span lass="fa fa-user" id="ClickableImage" aria-hidden="true" onclick="showorHideDiv()">View Student details</span>
+                                    <br>
+                                    <div id=fNameDiv class="validate-input" style="display:none;">
+                                        <label class=for="fname">First Name</label>
+                                        <input id="fname" class="form-control" type="text" name="fname"
+                                               readonly disabled>
+                                    </div>
+                                    <div id=lNameDiv class="validate-input" style="display:none;">
+                                        <label for="lname">Last Name</label>
+                                        <input id="lname" class="form-control" type="text" name="lname" readonly disabled>
+                                    </div>
+                                    <div id=amkaDiv class="validate-input" style="display:none;">
+                                        <label for="id">id</label>
+                                        <input id="id" class="form-control" type="text" name="id" readonly disabled>
+                                    </div>
+                                    <div id=phoneDiv class="validate-input" style="display:none;">
+                                        <label class=for="phone">Phone</label>
+                                        <input id="phone" class="form-control" type="text" name="phone" readonly disabled>
+                                    </div>
+                                    <div id=emailDiv class="validate-input" style="display:none;">
+                                        <label for="email">E-mail</label>
+                                        <input id="email" class="form-control" type="text" name="email" readonly disabled>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                                aria-hidden="true">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search an appointment Modal-->
+            <div class="modal fade" id="SearchModal" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Search your Appointments</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Modal body for pop-up form -->
+                        <div class="modal-body">
+                            <form name="searchappointment" class="validate-form" id="searchform">
+                                <div class="form-group required">
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="dates">Dates</label>
+                                        <input class="form-control" type="text" name="dates" id="dates"
+                                               placeholder="mm-dd-yyyy - mm-dd-yyyy" required>
+                                        <span class="symbol">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </span>
+                                    </div>
+                                    <div class="validate-input" data-validate="at least 2 characters">
+                                        <label class="control-label" for="briefdescriptionS">Description</label>
+                                        <textarea maxlength="200" minlength="2" id="briefdescriptionS"
+                                                  class="form-control" name="briefdescriptionS" required></textarea>
+
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                                aria-hidden="true">Close
+                                        </button>
+                                        <button type="button" id="searchAppointmentButton" class="btn btn-success"
+                                                disabled>
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+  $('input[name="dates"]').daterangepicker({
+    showDropdowns: false,
+    opens: 'left',
+    locale: {
+                format: 'MM-DD-YYYY'
+            }
+  });
+         document.appointment.reset();
+         document.searchappointment.reset();
+
+});
+ $('#viewAppointmentModal').on('hidden.bs.modal', function(e){
+        document.appointment.reset();
+        hideDiv();
+ });
+$('#SearchModal').on('hidden.bs.modal', function(e){
+       document.searchappointment.reset();
+       document.getElementById("searchAppointmentButton").disabled = true;
+       $('#searchform').find(':input').each(function(){
+           $(this).parent().removeClass('alert-validate');
+        });
+
+ });
+
+</script>
+<script>
+    function showorHideDiv() {
+       let x = document.getElementById("fNameDiv");
+       if (x.style.display === "none") {
+        document.getElementById('fNameDiv').style.display = "block";
+        document.getElementById('lNameDiv').style.display = "block";
+        document.getElementById('amkaDiv').style.display = "block";
+        document.getElementById('phoneDiv').style.display = "block";
+        document.getElementById('emailDiv').style.display = "block";
+       }else{
+        document.getElementById('fNameDiv').style.display = "none";
+        document.getElementById('lNameDiv').style.display = "none";
+        document.getElementById('amkaDiv').style.display = "none";
+        document.getElementById('phoneDiv').style.display = "none";
+        document.getElementById('emailDiv').style.display = "none";
+       }
+
+ }
+    function hideDiv() {
+     document.getElementById('fNameDiv').style.display = "none";
+     document.getElementById('lNameDiv').style.display = "none";
+     document.getElementById('amkaDiv').style.display = "none";
+     document.getElementById('phoneDiv').style.display = "none";
+     document.getElementById('emailDiv').style.display = "none";
+ }
+</script>
+<script src="../../scripts/validations/validations.js"></script>
+</body>
+</html>

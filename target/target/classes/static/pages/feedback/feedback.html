@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<h3>FacultyNotes Form</h3>
+
+<div class="container">
+  <form action="http://localhost:8080/FacultyNotes"  method="post" >
+    <label for="fname">Faculty Name</label>
+    <input type="text" id="fname" name="firstName" value="{faculty.name}" disabled>
+    
+    <label for="lname">Faculty email</label>
+    <input type="text" id="email" name="email" value="{faculty.email}" disabled>
+
+    <label for="fname">Student Name</label>
+    <input type="text" id="pname" name="pName" value="{student.name}" disabled>
+    
+    <label for="lname">Student email</label>
+    <input type="text" id="pemail" name="pEmail" value="{student.email}" disabled>
+
+    <label for="FacultyNotes">FacultyNotes</label>
+    <textarea id="FacultyNotes" name="FacultyNotes" placeholder="Write something.." style="height:200px"></textarea>
+
+    <input type="button" onclick="func()" value="Submit">
+  </form>
+</div>
+
+</body>
+<script>
+  function func(){
+    var facultyName = document.getElementById("fname").defaultValue;
+    var facultyEmail = document.getElementById("email").defaultValue;
+    var studentName = document.getElementById("pname").defaultValue;
+    var studentEmail = document.getElementById("pemail").defaultValue;
+    var FacultyNotes = document.getElementById("FacultyNotes").value;
+    console.log(facultyName,facultyEmail,studentName,studentEmail,FacultyNotes);
+
+     let updatedata = {
+      "firstName": facultyName,
+      "email": facultyEmail,
+      "studentName": studentName,
+      "studentEmail" : studentEmail,
+      "FacultyNotes": FacultyNotes
+    };
+
+    // var xhr = new XMLHttpRequest();
+    // xhr.open("POST", "http://localhost:8080/FacultyNotes", true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify(updatedata));
+
+    $.ajax({
+      url: "http://localhost:8080/FacultyNotes",
+      type: 'POST',
+      data: JSON.stringify(updatedata),
+      dataType: 'json',
+      crossDomain: true,
+      contentType: 'application/json',
+      success: function (data) {
+        
+        if(confirm("data saved successfully")) document.location = 'http://localhost:8080/';
+      },
+      statusCode: {
+        500: function () {
+          alert("Invalid data!");
+        }
+      }
+    });
+     if(confirm("confirm")) document.location = 'http://localhost:8080/';
+
+
+  }
+</script>
+</html>

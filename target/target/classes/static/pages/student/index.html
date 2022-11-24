@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>STUDENT/Appointment Page</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!--===============================================================================================-->
+    <link href="../../images/icons/efka.ico" rel="icon" type="image/png"/>
+    <!--===============================================================================================-->
+    <link href="../../fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/main.css" rel="stylesheet" type="text/css"/>
+    <!--===============================================================================================-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"
+            type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
+    <script src="../../scripts/notify.js"></script>
+    <script src="../../scripts/config/main.js"></script>
+    <script src="../../scripts/security/home-auth.js"></script>
+    <script src="../../scripts/security/STUDENT-auth.js"></script>
+    <script src="../../scripts/STUDENT/home.js"></script>
+</head>
+
+<body>
+<div class="modifier">
+    <div class="login">
+        <div class="wrap-login">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light text-align:right">
+                    <!--  <a class="navbar-brand" href="index.html">Home</a> -->
+                    <a class="navbar-brand">
+                        <img alt="EFKA" height="30" src="../../images/efka-logotypo.png" width="30">
+                    </a>
+                    <!-- Toggler/collapsibe Button -->
+                    <button class="navbar-toggler" data-target="#collapsibleNavbar" data-toggle="collapse"
+                            type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <span class="nav-link"><a href="index.html">Home</a></span>
+                            </li>
+                            <li class="nav-item">
+                               <span class="nav-link" data-target="#makeAppointmentModal" data-toggle="modal"
+                                     id="myClickableThingy">Make an Appointment</span>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link" data-target="#SearchModal" data-toggle="modal"
+                                      id="myClickableThingy">Search Appointment</span>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link" id="myClickableThingy" onclick="logout()">Logout</span>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="welcome-user">
+                <span id="welcome" style="float:right"></span>
+            </div>
+            <div>
+                Name : <span id="name"></span><br>
+                Email : <span id="email"></span>
+            </div>
+            <br>
+            <div class="container">
+                <br>
+                <br>
+                <table class="table table-hover" id="appointments" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>department</th>
+                        <th>Date</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!-- Delete an appointment Modal -->
+            <div class="modal" data-backdrop="static" data-keyboard="false" id="deleteModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal body for pop-up form -->
+                        <div class="modal-body">
+                            <div class="wrap-input100">
+                                <p> Are you sure you want to cancel this appointment? </p>
+                                <br>
+                                <div style="float: left;padding-left: 80px">
+                                    <button class="btn btn-danger" data-dismiss="modal" id="deleteButton" type="button">
+                                        Yes
+                                    </button>
+                                </div>
+                                <div style="float: right;padding-right: 80px">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">No</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Make an appointment Modal -->
+            <div class="modal fade" data-backdrop="static" data-keyboard="false" id="makeAppointmentModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Make an Appointment</h4>
+                            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="validate-form" id="makeAppointmentForm" name="appointment">
+                                <div class="form-group required">
+
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="departmentA">Department</label>
+                                        <select class="form-control" id="departmentA" name="departmentA" required>
+                                            <option disabled selected value="">Choose Department</option>
+                                        </select>
+                                    </div>
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="facultyA">Faculty</label>
+                                        <select class="form-control" id="facultyA" name="facultyA" required>
+                                            <option disabled selected value="">Choose the Faculty</option>
+                                        </select>
+                                    </div>
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="priority">Priority</label>
+                                        <select class="form-control" id="priority" name="priority" required>
+                                            <option disabled selected value="">Choose Priority</option>
+                                            <option value="URGENT">URGENT</option>
+                                            <option value="REGULAR">REGULAR</option>
+                                        </select>
+                                    </div>
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="date">Date</label>
+                                        <input class="form-control" id="date" name="date" placeholder="mm-dd-yyyy"
+                                               required type="text" value="">
+                                        <span class="symbol">
+                                        <i aria-hidden="true" class="fa fa-calendar"></i>
+                                    </span>
+                                    </div>
+                                    <div class="validate-input"
+                                         data-validate="appointments are allowed only between 09:00-18:00">
+                                        <label class="control-label" for="time">Time</label>
+                                        <input class="form-control" id="time" max="18:00" min="09:00"
+                                               name="time" required type="time" value="">
+                                        <span class="symbol">
+                                        <i aria-hidden="true" class="fa fa-clock-o"></i>
+                                    </span>
+                                    </div>
+                                    <div class="validate-input" data-validate="at least 2 characters">
+                                        <label class="control-label" for="briefdescription">Brief Description</label>
+                                        <textarea class="form-control" id="briefdescription" maxlength="200"
+                                                  minlength="2" name="briefdescription" required></textarea>
+
+                                    </div>
+
+                                    <div class="validate-input" data-validate="at least 2 characters">
+                                        <label for="notes">Notes</label>
+                                        <textarea class="form-control" id="notes" maxlength="2000" minlength="2"
+                                                  name="notes" rows="3"></textarea>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button aria-hidden="true" class="btn btn-danger" data-dismiss="modal"
+                                            type="button">Close
+                                    </button>
+                                    <button class="btn btn-success" disabled id="createAppointmentButton" type="button">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Search an appointment Modal -->
+            <div class="modal fade" data-backdrop="static" data-keyboard="false" id="SearchModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Search your Appointments</h4>
+                            <button class="close" data-dismiss="modal" type="button">&times;</button>
+                        </div>
+                        <!-- Modal body for pop-up form -->
+                        <div class="modal-body">
+                            <form class="validate-form" id="searchform" name="searchappointment">
+                                <div class="form-group required">
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="departmentS">Department</label>
+                                        <select class="form-control" id="departmentS" name="departmentS" required>
+                                            <option disabled selected value="">Choose Department</option>
+                                        </select>
+                                    </div>
+                                    <div class="validate-input" data-validate="required">
+                                        <label class="control-label" for="dates">Dates</label>
+                                        <input class="form-control" id="dates" name="dates"
+                                               placeholder="mm-dd-yyyy - mm-dd-yyyy"
+                                               required type="text">
+                                        <span class="symbol">
+                                        <i aria-hidden="true" class="fa fa-calendar"></i>
+                                    </span>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <button aria-hidden="true" class="btn btn-danger" data-dismiss="modal"
+                                                type="button">Close
+                                        </button>
+                                        <button class="btn btn-success" disabled id="searchAppointmentButton"
+                                                type="button">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+$(function() {
+    let dateToday = new Date();
+    dateToday.setDate(dateToday.getDate() + 1);
+    const oneYear=new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  $('input[name="dates"]').daterangepicker({
+    showDropdowns: false,
+    opens: 'left',
+    locale: {
+                format: 'MM-DD-YYYY'
+            }
+  });
+  $('input[name="date"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: false,
+    format: 'dd/mm/yyyy',
+    minDate: dateToday,
+    maxDate: oneYear,
+    locale: {
+                format: 'MM-DD-YYYY'
+            }
+  });
+  $('#time').daterangepicker({
+            singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 15,
+            timePickerSeconds: false,
+            locale: {
+                format: 'HH:mm'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+         document.appointment.reset();
+         document.searchappointment.reset();
+});
+
+
+ $('#makeAppointmentModal').on('hidden.bs.modal', function(e){
+        document.appointment.reset();
+        populatefacultysDropdown([]);
+         document.getElementById("createAppointmentButton").disabled = true;
+       $('#makeAppointmentForm').find(':input').each(function(){
+           $(this).parent().removeClass('alert-validate');
+        });
+
+ });
+
+$('#SearchModal').on('hidden.bs.modal', function(e){
+         document.searchappointment.reset();
+          document.getElementById("searchAppointmentButton").disabled = true;
+       $('#searchform').find(':input').each(function(){
+           $(this).parent().removeClass('alert-validate');
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<script src="../../scripts/validations/validations.js"></script>
+</body>
+
+</html>
