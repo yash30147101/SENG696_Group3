@@ -1,3 +1,6 @@
-LocalDate comparisonDate = LocalDate.parse("2001-11-09");
+# Get the current year and month
+current_year=$(date +%Y)
+current_month=$(date +%m)
 
-hdfs dfs -D fs.s3a.endpoint=$S3_ENDPOINT -D fs.s3a.access.key=$S3_ACCESS_KEY -D fs.s3a.secret.key=$S3_SECRET_KEY -ls $LOCAL_PATH | awk '{print $NF}' | while read file; do hdfs dfs -D fs.s3a.endpoint=$S3_ENDPOINT -D fs.s3a.access.key=$S3_ACCESS_KEY -D fs.s3a.secret.key=$S3_SECRET_KEY -put "$file" s3a://$S3_BUCKET/Fintrac_Data_Files/STR/$ENV/landing/; done
+# Assign the 2nd date of the current month to monthly_date
+monthly_date="${current_year}${current_month}02"
