@@ -46,4 +46,4 @@ TRIM(COALESCE(DATE_OF_REINSTATEMENT,"")) AS Date_Of_Reinstatement,
 TRIM(COALESCE(POSTAL_CODE,"")) AS Postal_Code
 FROM Table;
 
-
+Good
