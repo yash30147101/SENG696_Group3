@@ -8,6 +8,7 @@ COMMON_PATH=$2
 UP20_DIR="${COMMON_PATH}/${SRC_ID}/UP20"
 Y5M0_DIR="${COMMON_PATH}/${SRC_ID}/Y5M0"
 Q500_DIR="${COMMON_PATH}/${SRC_ID}/Q500"
+BACKUP_DIR="${COMMON_PATH}/${SRC_ID}/backup"
 
 # Get the counts from the files
 UP20_count=$(awk 'NR==2 {print $1}' ${UP20_DIR}/UP20_LVS_${SRC_ID}_*.psv)
@@ -43,3 +44,11 @@ if [ ${UP20_count} -ne ${Q500_count} ]; then
     echo "***Alert Mismatch: UP20 count is ${UP20_count} & Q500 count is ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
 fi
 echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+
+# If all goes well, move all the files to the backup directory
+mv ${UP20_DIR}/* ${BACKUP_DIR}/
+mv ${Y5M0_DIR}/* ${BACKUP_DIR}/
+mv ${Q500_DIR}/* ${BACKUP_DIR}/
+
+# Exit with code 0
+exit 0
