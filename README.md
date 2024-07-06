@@ -1,58 +1,47 @@
 # Get the current year and month
 
-SELECT 
-TRIM(COALESCE(EMPLOYEE_NUMBER,"")) AS Employee_Number,
-TRIM(COALESCE(SIN,"")) AS Sin,
-TRIM(COALESCE(LAST_NAME,"")) AS Last_Name,
-TRIM(COALESCE(FIRST_NAME,"")) AS First_Name,
-TRIM(COALESCE(MIDDLE_NAME,"")) AS Middle_Name,
-TRIM(COALESCE(CURRENT_EMPLOYER,"")) AS Current_Employer,
-TRIM(COALESCE(CURRENT_PLAN,"")) AS Current_Plan,
-TRIM(COALESCE(CURRENT_STATUS,"")) AS Current_Status,
-TRIM(COALESCE(CONTRACT_NUMBER,"")) AS Contract_Number,
-TRIM(COALESCE(BUY_IN_OR_BUY_OUT,"")) AS Buy_In_Or_Buy_Out,
-TRIM(COALESCE(HISTORY_EFFECTIVE_DATE,"")) AS History_Effective_Date,
-TRIM(COALESCE(HISTORY_TRANSACTION_ID,"")) AS History_Transaction_Id,
-TRIM(COALESCE(HISTORY_PLAN_CODE,"")) AS History_Plan_Code,
-TRIM(COALESCE(HISTORY_PLAN_NAME,"")) AS History_Plan_Name,
-TRIM(COALESCE(HISTORY_RECIPIENT_EENO,"")) AS History_Recipient_Eeno,
-TRIM(COALESCE(HISTORY_RECIPIENT_TYPE_CODE,"")) AS History_Recipient_Type_Code,
-TRIM(COALESCE(HISTORY_RECIPIENT_TYPE_DESCRIPTION,"")) AS History_Recipient_Type_Description,
-TRIM(COALESCE(HISTORY_SIN,"")) AS History_Sin,
-TRIM(COALESCE(HISTORY_RECIPIENT_UNTRACEABLE_FLAG,"")) AS History_Recipient_Untraceable_Flag,
-TRIM(COALESCE(HISTORY_RECIPIENT_LAST_NAME,"")) AS History_Recipient_Last_Name,
-TRIM(COALESCE(HISTORY_RECIPIENT_FIRST_NAME,"")) AS History_Recipient_First_Name,
-TRIM(COALESCE(HISTORY_RECIPIENT_MIDDLE_NAME,"")) AS History_Recipient_Middle_Name,
-TRIM(COALESCE(HISTORY_RECIPIENT_PREFIX,"")) AS History_Recipient_Prefix,
-TRIM(COALESCE(HISTORY_RECIPIENT_DATE_OF_BIRTH,"")) AS History_Recipient_Date_Of_Birth,
-TRIM(COALESCE(HISTORY_RECIPIENT_DATE_OF_DEATH,"")) AS History_Recipient_Date_Of_Death,
-TRIM(COALESCE(HISTORY_RECIPIENT_DATE_OF_DEATH_NOTIFIED,"")) AS History_Recipient_Date_Of_Death_Notified,
-TRIM(COALESCE(HISTORY_RECIPIENT_DATE_OF_DEATH_CONFIRMED,"")) AS History_Recipient_Date_Of_Death_Confirmed,
-TRIM(COALESCE(HISTORY_RECIPIENT_GENDER,"")) AS History_Recipient_Gender,
-TRIM(COALESCE(HISTORY_RECIPIENT_LANGUATE,"")) AS History_Recipient_Languate,
-TRIM(COALESCE(HISTORY_RECIPIENT_MARITAL_STATUS,"")) AS History_Recipient_Marital_Status,
-TRIM(COALESCE(HISTORY_RECIPIENT_HOME_ADDRESS_LINE1,"")) AS History_Recipient_Home_Address_Line1,
-TRIM(COALESCE(HISTORY_RECIPIENT_HOME_ADDRESS_LINE2,"")) AS History_Recipient_Home_Address_Line2,
-TRIM(COALESCE(HISTORY_RECIPIENT_HOME_ADDRESS_LINE3,"")) AS History_Recipient_Home_Address_Line3,
-TRIM(COALESCE(HISTORY_RECIPIENT_CITY,"")) AS History_Recipient_City,
-TRIM(COALESCE(HISTORY_RECIPIENT_PROVINCE,"")) AS History_Recipient_Province,
-TRIM(COALESCE(HISTORY_RECIPIENT_COUNTRY,"")) AS History_Recipient_Country,
-TRIM(COALESCE(HISTORY_RECIPIENT_POSTAL_CODE,"")) AS History_Recipient_Postal_Code,
-TRIM(COALESCE(HISTORY_RECIPIENT_HOME_PHONE_NUMBER,"")) AS History_Recipient_Home_Phone_Number,
-TRIM(COALESCE(HISTORY_RECIPIENT_WORK_PHONE_NUMBER,"")) AS History_Recipient_Work_Phone_Number,
-TRIM(COALESCE(HISTORY_RECIPIENT_FAX_NUMBER,"")) AS History_Recipient_Fax_Number,
-TRIM(COALESCE(HISTORY_RECIPIENT_EMAIL_ADDRESS,"")) AS History_Recipient_Email_Address,
-TRIM(COALESCE(HISTORY_RECIPIENT__BANK_NUMBER,"")) AS History_Recipient__Bank_Number,
-TRIM(COALESCE(HISTORY_RECIPIENT__BANK_TRANSIT,"")) AS History_Recipient__Bank_Transit,
-TRIM(COALESCE(HISTORY_RECIPIENT_BANK_ACCOUNT,"")) AS History_Recipient_Bank_Account,
-TRIM(COALESCE(HISTORY_RECIPIENT_BANK_PAY_METHOD,"")) AS History_Recipient_Bank_Pay_Method,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_ADDRESS_LINE1,"")) AS History_Recipient_Payment_Address_Line1,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_ADDRESS_LINE2,"")) AS History_Recipient_Payment_Address_Line2,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_ADDRESS_LINE3,"")) AS History_Recipient_Payment_Address_Line3,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_CITY,"")) AS History_Recipient_Payment_City,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_PROVINCE,"")) AS History_Recipient_Payment_Province,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_COUNTRY,"")) AS History_Recipient_Payment_Country,
-TRIM(COALESCE(HISTORY_RECIPIENT_PAYMENT_POSTAL_CODE,"")) AS History_Recipient_Payment_Postal_Code,
-TRIM(COALESCE(HISTORY_RECIPIENT_CURRENTLY_RESIDING_TEMP_LOCATION,"")) AS History_Recipient_Currently_Residing_Temp_Location,
-TRIM(COALESCE(HISTORY_RECIPIENT_COMMENTS,"")) AS History_Recipient_Comments
-FROM Table;
+#!/bin/bash
+
+# The SRC_ID is passed as a parameter at runtime
+SRC_ID=$1
+COMMON_PATH=$2
+
+# Define the directory paths
+UP20_DIR="${COMMON_PATH}/${SRC_ID}/UP20"
+Y5M0_DIR="${COMMON_PATH}/${SRC_ID}/Y5M0"
+Q500_DIR="${COMMON_PATH}/${SRC_ID}/Q500"
+
+# Get the counts from the files
+UP20_count=$(awk 'NR==2 {print $1}' ${UP20_DIR}/UP20_LVS_${SRC_ID}_*.psv)
+Y5M0_count=$(awk 'NR==4 {print $2}' ${Y5M0_DIR}/Y5M0_LVS_${SRC_ID}_*.psv)
+Q500_count=$(awk 'NR==1 {print $1}' ${Q500_DIR}/Q500_LVS_${SRC_ID}_*.psv)
+
+# Get the business date from the file names
+business_date=$(basename ${UP20_DIR}/UP20_LVS_${SRC_ID}_*.psv | cut -d'_' -f4 | cut -d'.' -f1)
+
+# Check if all files have the same business date
+if [ $(basename ${Y5M0_DIR}/Y5M0_LVS_${SRC_ID}_*.psv | cut -d'_' -f4 | cut -d'.' -f1) != ${business_date} ] || [ $(basename ${Q500_DIR}/Q500_LVS_${SRC_ID}_*.psv | cut -d'_' -f4 | cut -d'.' -f1) != ${business_date} ]; then
+    echo "Files do not have the same business date. Exiting with code 1."
+    exit 1
+fi
+
+# Write the output to the Comparison file
+echo "======================================================" > ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "Business Date: ${business_date}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "LVS Source: ${SRC_ID}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "Y5M0 Count: ${Y5M0_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "UP20 Count: ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "Q500 Count: ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+
+# Check for mismatches and write alerts to the Comparison file
+if [ ${Y5M0_count} -ne ${UP20_count} ]; then
+    echo "***Alert Mismatch: Y5M0 count is ${Y5M0_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+fi
+if [ ${UP20_count} -ne ${Q500_count} ]; then
+    echo "***Alert Mismatch: UP20 count is ${UP20_count} & Q500 count is ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
+fi
+echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Count_Comparison.txt
