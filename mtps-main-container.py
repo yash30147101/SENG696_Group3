@@ -35,6 +35,13 @@ def count_records(SRC_ID, file_location):
         with open(os.path.join(file_location, output_filename), 'w') as f:
             f.write(str(count))
 
+        # Check if the file is CSV
+        if file.endswith('.csv'):
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+                # Count non-empty lines, ignoring the header
+                count = sum(1 for line in lines[1:] if line.strip())
+
 if __name__ == "__main__":
     SRC_ID = sys.argv[1]
     file_location = "/app/up20/dev-titan/data/recon/source/lvs/{}/Windows_Server/".format(SRC_ID)
