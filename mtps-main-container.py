@@ -37,10 +37,10 @@ def count_records(SRC_ID, file_location):
 
         # Check if the file is CSV
         if file.endswith('.csv'):
-            with open(file_path, 'r') as f:
-                lines = f.readlines()
-                # Count non-empty lines, ignoring the header
-                count = sum(1 for line in lines[1:] if line.strip())
+            try:
+                df = pd.read_csv(file_path, encoding='utf-8')
+            except UnicodeDecodeError:
+                df = pd.read_csv(file_path, encoding='ISO-8859-1')  # Use a different encoding
 
 if __name__ == "__main__":
     SRC_ID = sys.argv[1]
