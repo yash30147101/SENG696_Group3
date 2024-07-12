@@ -1,8 +1,10 @@
 import os
 import sys
-import pandas as pd
 
-def count_records(SRC_ID, file_location):
+def count_records(SRC_ID, base_dir):
+    # Construct the file location using the base directory and the source ID
+    file_location = os.path.join(base_dir, SRC_ID, "Windows_Server")
+
     # Get the list of files in the directory
     files = os.listdir(file_location)
 
@@ -19,30 +21,18 @@ def count_records(SRC_ID, file_location):
         # Full path to the file
         file_path = os.path.join(file_location, file)
 
-        # Check if the file is CSV or Excel
-        if file.endswith('.csv'):
-            df = pd.read_csv(file_path)
-        elif file.endswith('.xlsx'):
-            df = pd.read_excel(file_path)
-
-        # Drop empty rows
-        df.dropna(how='all', inplace=True)
-
-        # Get the count of records
-        count = df.shape[0]
-
-        # Write the count to the output file
-        with open(os.path.join(file_location, output_filename), 'w') as f:
-            f.write(str(count))
-
         # Check if the file is CSV
         if file.endswith('.csv'):
-            try:
-                df = pd.read_csv(file_path, encoding='utf-8')
-            except UnicodeDecodeError:
-                df = pd.read_csv(file_path, encoding='ISO-8859-1')  # Use a different encoding
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+                # Count non-empty lines, ignoring the header
+                count = sum(1 for line in lines[1:] if line.strip())
+
+            # Write the count to the output file
+            with open(os.path.join(file_location, output_filename), 'w') as f:
+                f.write(str(count))
 
 if __name__ == "__main__":
     SRC_ID = sys.argv[1]
-    file_location = "/app/up20/dev-titan/data/recon/source/lvs/{}/Windows_Server/".format(SRC_ID)
-    count_records(SRC_ID, file_location)
+    base_dir = sys.argv[2]  # Get the base directory from the command-line arguments
+    count_records(SRC_ID, base_dir)
