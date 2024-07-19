@@ -74,3 +74,71 @@
 
 </script>
 </body>
+
+
+
+<script>
+export default {
+  data() {
+    return {
+      bytes: null,
+      // other data properties...
+    };
+  },
+  methods: {
+    async readFileBytes(bytes) {
+      try {
+        await this.$store.dispatch("lvs/validateFile");
+        if (this.validationMsg.count) {
+          this.bytes = bytes;
+          this.showConfirmBox("The uploaded file is having " + this.validationMsg.count + " records, Do you agree with this record count?");
+        }
+      } catch (e) {
+        this.snackbar = {
+          show: true,
+          text: e,
+          type: "danger",
+        };
+      }
+      this.onCancel();
+    },
+    async processFile() {
+      if (this.validationMsg.error) {
+        this.snackbar = {
+          show: true,
+          text: this.validationMsg.error,
+          type: "danger",
+        };
+      } else {
+        await this.$store.dispatch("lvs/setCSVData", this.bytes);
+      }
+    },
+    showConfirmBox(text) {
+      // Set the text in the confirm box
+      document.getElementById('confirm-text').innerText = text;
+
+      // Display the confirm box
+      document.getElementById('confirm-box').style.display = 'block';
+    },
+    // other methods...
+  },
+  mounted() {
+    document.getElementById('confirm-btn').addEventListener('click', () => {
+      // Hide the confirm box
+      document.getElementById('confirm-box').style.display = 'none';
+
+      // Process the file
+      this.processFile();
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+      // Hide the confirm box
+      document.getElementById('confirm-box').style.display = 'none';
+
+      // Perform the action for the No button
+      console.log('You clicked No!');
+    });
+  },
+  // other options...
+}
+</script>
