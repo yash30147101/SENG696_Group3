@@ -1,0 +1,76 @@
+<head>
+  
+  <style>
+  .confirm-box {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center the text horizontally */
+}
+
+.confirm-box p {
+  margin-bottom: 20px;
+}
+
+.confirm-box button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.confirm-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+  </style>
+ 
+  <script>
+   function showConfirmBox(text) {
+  // Set the text in the confirm box
+  document.getElementById('confirm-text').innerText = text;
+
+  // Display the confirm box
+  document.getElementById('confirm-box').style.display = 'block';
+}
+
+  </script>
+</head>
+<body>
+<div id="confirm-box" class="confirm-box">
+  <p id="confirm-text"></p>
+  <button id="confirm-btn" class="confirm-btn">Yes</button>
+  <button id="cancel-btn" class="cancel-btn">No</button>
+</div>
+<script type="text/javascript">
+  window.onload = function() {
+  document.getElementById('confirm-btn').addEventListener('click', function() {
+    document.getElementById('confirm-box').style.display = 'none';
+
+  // Perform the action for the Yes button
+  console.log('You clicked Yes!');
+  });
+
+  document.getElementById('cancel-btn').addEventListener('click', function() {
+     document.getElementById('confirm-box').style.display = 'none';
+
+  // Perform the action for the No button
+  console.log('You clicked No!');
+  });
+};
+
+</script>
+</body>
