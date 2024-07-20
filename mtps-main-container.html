@@ -131,6 +131,10 @@ export default {
       this.processFile();
     });
 
+
+    <button id="cancel-btn" @click="cancel">No</button>
+
+    
     document.getElementById('cancel-btn').addEventListener('click', () => {
       // Hide the confirm box
       document.getElementById('confirm-box').style.display = 'none';
