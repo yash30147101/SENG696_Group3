@@ -1,5 +1,15 @@
 #!/bin/bash
 
+SELECT 
+    CASE 
+        WHEN COUNT(*) = 0 THEN 0 
+        ELSE COUNT(*) 
+    END 
+FROM 
+    qa_up20_sandbox.party_entity 
+WHERE 
+    partysystemsourceid=10084;
+
 # The SRC_ID is passed as a parameter at runtime
 SRC_ID=$1
 TITAN_DIR=@TITAN_DIR_UCD@ 
