@@ -1,10 +1,8 @@
-In the below bash script, if "Check for mismatches and create the Comparison file if needed" this condition is not met, then we need to create a file with the name "LVS_Success.txt" at the same location. It should contain "No count mismatch found among in UP20, Q500, Y5M0, and LVS File Source"
-
 #!/bin/bash
 
 # The SRC_ID is passed as a parameter at runtime
 SRC_ID=$1
-TITAN_DIR=@TITAN_DIR_UCD@ 
+TITAN_DIR=@TITAN_DIR_UCD@
 APP_HOME=@APP_HOME_UCD@/${TITAN_DIR}
 COMMON_PATH="${APP_HOME}/data/recon/source/lvs"
 
@@ -72,6 +70,8 @@ if [ ${Y5M0_count} -ne ${UP20_count} ] || [ ${Q500_count} -ne ${UP20_count} ] ||
         echo "***Record Count Mismatch: LVS File count is ${WINDOWS_SERVER_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
     fi
     echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+else
+    echo "No count mismatch found among in UP20, Q500, Y5M0, and LVS File Source" > ${COMMON_PATH}/${SRC_ID}/LVS_Success.txt
 fi
 
 # If all goes well, move all the files to the backup directory
