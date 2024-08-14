@@ -17,8 +17,8 @@ BACKUP_DIR="${COMMON_PATH}/${SRC_ID}/backup"
 today_date=$(date +%Y%m%d)
 
 # Move the Comparison file to the backup directory with today's date appended
-if [ -f "${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt" ]; then
-    mv "${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt" "${BACKUP_DIR}/10002_LVS_Count_Comparison_${today_date}.txt"
+if [ -f "${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt" ]; then
+    mv "${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt" "${BACKUP_DIR}/${SRC_ID}_LVS_Count_Comparison_${today_date}.txt"
 fi
 
 # Get the counts from the files
@@ -47,31 +47,31 @@ fi
 
 # Check for mismatches and create the Comparison file if needed
 if [ ${Y5M0_count} -ne ${UP20_count} ] || [ ${Q500_count} -ne ${UP20_count} ] || ([ ${WINDOWS_SERVER_count} != "NA" ] && [ ${WINDOWS_SERVER_count} -ne ${UP20_count} ]); then
-    echo "======================================================" > ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "Business Date: ${business_date}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "LVS Source: ${SRC_ID}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "LVS filename: ${LVS_FileName}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "LVS File Count: ${WINDOWS_SERVER_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "Y5M0 Count: ${Y5M0_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "UP20 Count: ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "Q500 Count: ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+    echo "======================================================" > ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "Business Date: ${business_date}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "LVS Source: ${SRC_ID}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "LVS filename: ${LVS_FileName}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "LVS File Count: ${WINDOWS_SERVER_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "Y5M0 Count: ${Y5M0_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "UP20 Count: ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "Q500 Count: ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
 
     if [ ${Y5M0_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: Y5M0 count is ${Y5M0_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+        echo "***Record Count Mismatch: Y5M0 count is ${Y5M0_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
     fi
     if [ ${Q500_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: Q500 count is ${Q500_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+        echo "***Record Count Mismatch: Q500 count is ${Q500_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
     fi
     if [ ${WINDOWS_SERVER_count} != "NA" ] && [ ${WINDOWS_SERVER_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: LVS File count is ${WINDOWS_SERVER_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+        echo "***Record Count Mismatch: LVS File count is ${WINDOWS_SERVER_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
     fi
-    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/10002_LVS_Count_Comparison.txt
+    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
 else
-    echo "No count mismatch found among in UP20, Q500, Y5M0, and LVS File Source" > ${COMMON_PATH}/${SRC_ID}/LVS_Success.txt
+    echo "No count mismatch found among UP20, Q500, Y5M0, and LVS File Source" > ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Success.txt
 fi
 
 # If all goes well, move all the files to the backup directory
