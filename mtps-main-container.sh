@@ -1,3 +1,5 @@
+sed 's/\\//g' input.csv > output.csv
+
 SELECT COUNT(*) AS counts 
 FROM @UP20_HIVE_SCHEMA@.party_entity 
 WHERE partysystemsourceid = 10004 
