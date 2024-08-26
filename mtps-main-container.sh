@@ -74,30 +74,32 @@ if [ $(basename ${Y5M0_DIR}/Y5M0_LVS_${SRC_ID}_*.psv | cut -d'_' -f4 | cut -d'.'
 fi
 
 # Check for mismatches and create the Comparison file if needed
+comparison_output=""
 if [ ${Y5M0_count} -ne ${UP20_count} ] || [ ${Q500_count} -ne ${UP20_count} ] || ([ ${WINDOWS_SERVER_count} != "NA" ] && [ ${WINDOWS_SERVER_count} -ne ${UP20_count} ]); then
-    echo "======================================================" > ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "Business Date: ${business_date}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "LVS Source: ${SRC_ID}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "LVS filename: ${LVS_FileName}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "LVS File Count: ${WINDOWS_SERVER_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "Y5M0 Count: ${Y5M0_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "UP20 Count: ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "Q500 Count: ${Q500_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
-    echo "" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    comparison_output+="======================================================\n"
+    comparison_output+="Business Date: ${business_date}\n"
+    comparison_output+="======================================================\n"
+    comparison_output+="\n"
+    comparison_output+="LVS Source: ${SRC_ID}\n"
+    comparison_output+="LVS filename: ${LVS_FileName}\n"
+    comparison_output+="\n"
+    comparison_output+="LVS File Count: ${WINDOWS_SERVER_count}\n"
+    comparison_output+="Y5M0 Count: ${Y5M0_count}\n"
+    comparison_output+="UP20 Count: ${UP20_count}\n"
+    comparison_output+="Q500 Count: ${Q500_count}\n"
+    comparison_output+="\n"
 
     if [ ${Y5M0_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: Y5M0 count is ${Y5M0_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+        comparison_output+="***Record Count Mismatch: Y5M0 count is ${Y5M0_count} & UP20 count is ${UP20_count}\n"
     fi
     if [ ${Q500_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: Q500 count is ${Q500_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+        comparison_output+="***Record Count Mismatch: Q500 count is ${Q500_count} & UP20 count is ${UP20_count}\n"
     fi
     if [ ${WINDOWS_SERVER_count} != "NA" ] && [ ${WINDOWS_SERVER_count} -ne ${UP20_count} ]; then
-        echo "***Record Count Mismatch: LVS File count is ${WINDOWS_SERVER_count} & UP20 count is ${UP20_count}" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+        comparison_output+="***Record Count Mismatch: LVS File count is ${WINDOWS_SERVER_count} & UP20 count is ${UP20_count}\n"
     fi
-    echo "======================================================" >> ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
+    comparison_output+="======================================================\n"
+    echo -e "${comparison_output}" > ${COMMON_PATH}/${SRC_ID}/Comparison/${SRC_ID}_LVS_Count_Comparison.txt
 else
     echo "No count mismatch found among UP20, Q500, Y5M0, and LVS File Source" > ${COMMON_PATH}/${SRC_ID}/Comparison/LVS_Success.txt
 fi
