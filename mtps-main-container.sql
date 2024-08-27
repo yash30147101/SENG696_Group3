@@ -1,0 +1,41 @@
+SELECT
+    TRIM(CLIENT_ID) AS pk,
+    TRIM(regexp_replace(coalesce(CLIENT_ID, ""), '[^a-zA-Z0-9 ]', "")) AS Client_ID,
+    TRIM(regexp_replace(coalesce(DIVISION_ID, ""), '[^a-zA-Z0-9 ]', "")) AS Division_ID,
+    TRIM(regexp_replace(coalesce(CLIENT_NAME_CATEGORY, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Name_Category,
+    TRIM(regexp_replace(coalesce(CLIENT_LAST_NAME_OR_BUSINESS_NAME, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Last_Name_Or_Business_Name,
+    TRIM(regexp_replace(coalesce(CLIENT_FIRST_NAME, ""), '[^a-zA-Z0-9 ]', "")) AS Client_First_Name,
+    TRIM(regexp_replace(coalesce(CLIENT_TYPE_OR_ASSOCIATED_ENTITY, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Type_Or_Associated_Entity,
+    TRIM(regexp_replace(coalesce(CLIENT_CREATION_DATE, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Creation_Date,
+    TRIM(regexp_replace(coalesce(ASSOCIATED_PRIMARY_CLIENT_ID, ""), '[^a-zA-Z0-9 ]', "")) AS Associated_Primary_Client_ID,
+    TRIM(regexp_replace(coalesce(ASSOCIATED_PRIMARY_LAST_NAME_OR_BUSINESS_NAME, ""), '[^a-zA-Z0-9 ]', "")) AS Associated_Primary_Last_Name_Or_Business_Name,
+    TRIM(regexp_replace(coalesce(ASSOCIATED_PRIMARY_FIRST_NAME, ""), '[^a-zA-Z0-9 ]', "")) AS Associated_Primary_First_Name,
+    TRIM(regexp_replace(coalesce(DATE_OF_BIRTH, ""), '[^a-zA-Z0-9 ]', "")) AS Date_Of_Birth,
+    TRIM(regexp_replace(coalesce(GENDER, ""), '[^a-zA-Z0-9 ]', "")) AS Gender,
+    TRIM(regexp_replace(coalesce(OCCUPATION, ""), '[^a-zA-Z0-9 ]', "")) AS Occupation,
+    TRIM(regexp_replace(coalesce(EMPLOYER_NAME, ""), '[^a-zA-Z0-9 ]', "")) AS Employer_Name,
+    TRIM(regexp_replace(coalesce(NATIONALITY, ""), '[^a-zA-Z0-9 ]', "")) AS Nationality,
+    TRIM(regexp_replace(coalesce(ADDRESS_LINE_1, ""), '[^a-zA-Z0-9 ]', "")) AS Address_Line_1,
+    TRIM(regexp_replace(coalesce(ADDRESS_LINE_2, ""), '[^a-zA-Z0-9 ]', "")) AS Address_Line_2,
+    TRIM(regexp_replace(coalesce(CITY, ""), '[^a-zA-Z0-9 ]', "")) AS City,
+    TRIM(regexp_replace(coalesce(PROVINCE_STATE, ""), '[^a-zA-Z0-9 ]', "")) AS Province_State,
+    TRIM(regexp_replace(coalesce(COUNTRY, ""), '[^a-zA-Z0-9 ]', "")) AS Country,
+    TRIM(regexp_replace(coalesce(CONTROL_INDICATOR, ""), '[^a-zA-Z0-9 ]', "")) AS Control_Indicator,
+    TRIM(regexp_replace(coalesce(STATUS, ""), '[^a-zA-Z0-9 ]', "")) AS Status,
+    TRIM(regexp_replace(coalesce(PERSONAL_SRF, ""), '[^a-zA-Z0-9 ]', "")) AS Personal_SRF,
+    TRIM(regexp_replace(coalesce(BUSINESS_SRF, ""), '[^a-zA-Z0-9 ]', "")) AS Business_SRF,
+    TRIM(regexp_replace(coalesce(UPDATED_AT, ""), '[^a-zA-Z0-9 ]', "")) AS Updated_At,
+    coalesce(regexp_extract(coalesce(file_name, ""), '[0-9]{8}', 0), "") AS file_date
+FROM CLIENT_SOURCE;
+
+SELECT
+    TRIM(CLNT_NO) AS pk,
+    TRIM(regexp_replace(coalesce(CLNT_NO, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Number,
+    TRIM(regexp_replace(coalesce(SYS_SRC_ID, ""), '[^a-zA-Z0-9 ]', "")) AS Source_ID,
+    TRIM(regexp_replace(coalesce(CLNT_NM, ""), '[^a-zA-Z0-9 ]', "")) AS Client_Name,
+    TRIM(regexp_replace(coalesce(DOB, ""), '[^a-zA-Z0-9 ]', "")) AS Date_Of_Birth,
+    TRIM(regexp_replace(coalesce(ST_ADDR_1_1, ""), '[^a-zA-Z0-9 ]', "")) AS Street_Address_1,
+    TRIM(regexp_replace(coalesce(STS, ""), '[^a-zA-Z0-9 ]', "")) AS Status,
+    TRIM(regexp_replace(coalesce(DEL_IND, ""), '[^a-zA-Z0-9 ]', "")) AS Delete_Indicator,
+    coalesce(regexp_extract(coalesce(file_name, ""), '[0-9]{8}', 0), "") AS file_date
+FROM CLIENT_TARGET;
