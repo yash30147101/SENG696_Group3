@@ -1,18 +1,16 @@
 #!/bin/bash
 
-# Check if the first argument starts with "LVS_" or "lvs_"
-if [[ $1 == LVS_* || $1 == lvs_* ]]; then
-  # Convert the argument to uppercase
-  UPPERCASE_ARG=$(echo $1 | tr '[:lower:]' '[:upper:]')
+# Check if the App_Id starts with "LVS_"
+if [[ ${App_Id} == LVS_* ]]; then
+  # Extract the last 5 characters of App_Id
+  LAST_FIVE_CHARS=${App_Id: -5}
   
-  # Define the source and destination directories
-  SOURCE_DIR="/dq5/recon/dm/${UPPERCASE_ARG}/target/"
-  DEST_DIR="/dq5/recon/dm/${UPPERCASE_ARG}/backup/"
+  # Define the directory to check
+  CHECK_DIR="${APP_HOME}/data/recon/source/lvs/${LAST_FIVE_CHARS}/Q500/"
   
-  # Move all files from the source to the destination directory
-  mv "${SOURCE_DIR}"* "${DEST_DIR}"
-  
-  echo "Files moved from ${SOURCE_DIR} to ${DEST_DIR}"
-else
-  echo "The argument does not start with 'LVS_' or 'lvs_'"
+  # Check if there are no .psv files in the directory
+  if ! ls "${CHECK_DIR}"*.psv 1> /dev/null 2>&1; then
+    echo "No .psv files found in ${CHECK_DIR}. Exiting script."
+    exit 0
+  fi
 fi
